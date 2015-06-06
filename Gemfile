@@ -7,7 +7,8 @@ gem 'rails', '3.2.12'
 
 gem 'sqlite3'
 gem 'devise'
-
+gem 'activerecord-oracle_enhanced-adapter', '~> 1.4.0'
+gem 'ruby-oci8'
 gem 'haml'
 gem 'haml-rails'
 # Gems used only for assets and not required
