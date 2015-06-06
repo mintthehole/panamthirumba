@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ac_no: MyString
+  name: MyString
+  ifsc_code: MyString
+
+two:
+  ac_no: MyString
+  name: MyString
+  ifsc_code: MyString

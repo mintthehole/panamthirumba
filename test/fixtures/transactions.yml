@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  refund_id: 1
+  status: MyString
+  txn_ref_no: MyString
+  txn_type: MyString
+
+two:
+  refund_id: 1
+  status: MyString
+  txn_ref_no: MyString
+  txn_type: MyString

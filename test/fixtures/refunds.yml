@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  merchant_id: 1
+  customer_id: 1
+  bank_detail_id: 1
+  amount: 1.5
+  state: MyString
+
+two:
+  merchant_id: 1
+  customer_id: 1
+  bank_detail_id: 1
+  amount: 1.5
+  state: MyString
