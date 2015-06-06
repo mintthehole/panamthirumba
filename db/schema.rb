@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150606102426) do
+ActiveRecord::Schema.define(:version => 20150606170453) do
 
   create_table "bank_details", :force => true do |t|
     t.string   "ac_no"
     t.string   "name"
     t.string   "ifsc_code"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "customer_id"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "customer_id", :precision => 38, :scale => 0
   end
 
   create_table "customer_bank_details", :force => true do |t|
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(:version => 20150606102426) do
     t.string   "address"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+  end
+
+  create_table "refund_links", :force => true do |t|
+    t.string   "link"
+    t.boolean  "is_valid",       :precision => 1,  :scale => 0, :default => false
+    t.integer  "no_of_attempts", :precision => 38, :scale => 0, :default => 0
+    t.datetime "created_at",                                                       :null => false
+    t.datetime "updated_at",                                                       :null => false
+    t.integer  "refund_id",      :precision => 38, :scale => 0
   end
 
   create_table "refunds", :force => true do |t|
