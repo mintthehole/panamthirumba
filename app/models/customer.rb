@@ -61,12 +61,6 @@ class Customer < ActiveRecord::Base
     }
   end
 
-<<<<<<< HEAD
-=======
-  def authenticate
-  	# aadhar api to autheticate and get the name,email
-  end
->>>>>>> 966281a31153dc41bf3e1452fa99d665f32b3c04
 
   def get_basic_details(otp,aadhaar_no)
   	# aadhar api to autheticate and get the basic details
