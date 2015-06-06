@@ -4,7 +4,9 @@ gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'exotel' , :git => 'git@github.com:raudra/exotel.git'
+gem 'bitly'
+gem 'settingslogic'
 gem 'sqlite3'
 gem 'devise'
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.4.0'

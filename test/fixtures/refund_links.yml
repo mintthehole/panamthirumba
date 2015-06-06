@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  link: MyString
+  is_valid: false
+  no_of_attempts: 1
+
+two:
+  link: MyString
+  is_valid: false
+  no_of_attempts: 1
