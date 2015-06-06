@@ -8,8 +8,14 @@ class Merchant < ActiveRecord::Base
   	user.try(:email)
   end
 
+  def update_params(hash)
+  	self.phone_no = hash[:phone_no]
+  	self.name = hash[:name]
+  	self.tan_no = hash[:tan_no]
+  end
+
   def build_hash
-  	{:phoneNo => self.try(:phone_no), :name => self.try(:name), :tanNo => self.try(:tan_no)}
+  	{:phone_no => self.try(:phone_no), :name => self.try(:name), :tan_no => self.try(:tan_no)}
   end
 
 

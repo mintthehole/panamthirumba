@@ -5,8 +5,8 @@ class Refund < ActiveRecord::Base
   belongs_to :bank_detail
   has_many :transactions
   
-  validates_presence_of :state, :customer_id,:amount,:merchant_id
- 
+  validates_presence_of :state,:amount,:merchant_id
+
   STATES = [
   	INITIATED = "Initiated",
   	PAID = "Paid",
@@ -15,6 +15,10 @@ class Refund < ActiveRecord::Base
   	COMPLETED = "Completed",
   	FAILED = "Failed"
   ]
+
+  def aadhaar_verfication
+    customer.send_otp
+  end
 
   def reverse_payment_transaction
     # REVERSE PAYMENT IF YOU FIND
@@ -26,11 +30,23 @@ class Refund < ActiveRecord::Base
       self.state = CANCELLED
       self.save
       self.reverse_payment_transaction
-      hash = {:sucess => true}
+      hash = {:success => true}
     else
-      hash = {:sucess => false, :error => "Can't be Cancelled."}
+      hash = {:success => false, :error => "Can't be Cancelled."}
     end
     hash
+  end
+
+
+  def refund_hash
+    customer = self.try(:customer)
+    {:name => customer.try(:name),:email =>customer.try(:name),
+     :phone_no =>customer.try(:phone_no) ,:aadhaar => customer.try(:aadhaar_no),
+     :transanction_no =>nil ,:status => state,:date=>created_at.strftime("%d-%m-%Y")}
+  end
+
+  def self.build(params)
+    self.new(:state => Refund::INITIATED, :amount => params[:amount], :customer_in_store => params[:isCustomerPresent])
   end
 
 end

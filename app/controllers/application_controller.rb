@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     if request.headers["auth-token"]
       @user = User.find_by_authentication_token(request.headers["auth-token"])
       if @user
-        @current_resource =  @user.merchant
+        @current_resource =  @user
         session[:resource_id] = @user.id
         session[:role_name] = User.name
       else
@@ -15,5 +15,13 @@ class ApplicationController < ActionController::Base
     else
       authenticate_user!
     end
+  end
+
+  def load_merchant
+  	if @current_resource && @current_resource.try(:merchant)
+  		@merchant = @current_resource.try(:merchant)
+  	else
+  		render :json => {:success => false, :error => "Please fill the profile Details."} and return
+  	end
   end
 end

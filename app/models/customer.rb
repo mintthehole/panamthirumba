@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
   attr_accessible :aadhaar_no, :email, :name, :phone_no
   validates_presence_of :aadhaar_no
+  validates_uniqness_od :aadhaar_no
   has_one :bank_detail
   require 'json'
   KYC_ERRORS = {"K-100" => "Resident authentication failed",
@@ -37,20 +38,24 @@ class Customer < ActiveRecord::Base
     bank_detail
   end
 
-  class << self
-    def send_otp(aadhaar_no)
-      # Aadhaar Api to send otp
-      otp_hash = build_otp_hash(aadhaar_no)
-    	response = curl_method(otp_hash,'https://ac.khoslalabs.com/hackgate/hackathon/otp')
-      response_body = JSON.parse response.body_str
-      response_body["success"]
-    end
+  def send_otp
+    # Aadhaar Api to send otp
+    otp_hash = build_otp_hash(aadhaar_no)
+    otp_response(otp_hash)
+  end
+
 
     def curl_method(hash,url)
       c = Curl::Easy.http_post(url, hash.to_json) do |curl|
         curl.headers['Accept'] = 'application/json'
         curl.headers['Content-Type'] = 'application/json'
       end
+    end
+
+    def otp_response(otp_hash)
+      response = curl_method(otp_hash,'https://ac.khoslalabs.com/hackgate/hackathon/otp')
+      response_body = JSON.parse response.body_str
+      response_body["success"]
     end
 
     def build_otp_hash(aadhaar_no)
@@ -93,5 +98,11 @@ class Customer < ActiveRecord::Base
         Customer::KYC_ERRORS[status_code]
       end
     end
-  end
+
+    def self.build(params)
+      cus = Customer.find_by_aadhaar_no(params[:aadhaar_no])
+      cus = self.new(:aadhaar_no => params[:aadhaar], :email => params[:email], :phone_no => params[:phone_no], :name => params[:name]) unless cus
+      cus
+    end
+
 end

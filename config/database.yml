@@ -1,8 +1,8 @@
 development:
-  adapter: oracle_enhanced
-  database: XE
-  username: refund_app
-  password: refund_app
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
 
 test:
   adapter: oracle_enhanced
