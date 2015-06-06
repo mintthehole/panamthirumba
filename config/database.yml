@@ -7,5 +7,5 @@ development:
 test:
   adapter: oracle_enhanced
   database: XE
-  username: refund_app_test
-  password: refund_app_test
+  username: memp
+  password: memp
