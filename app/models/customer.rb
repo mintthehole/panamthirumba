@@ -1,7 +1,7 @@
 class Customer < ActiveRecord::Base
   attr_accessible :aadhaar_no, :email, :name, :phone_no
   validates_presence_of :aadhaar_no
-  validates_uniqness_od :aadhaar_no
+  validates_uniqueness_of :aadhaar_no
   has_one :bank_detail
   require 'json'
   KYC_ERRORS = {"K-100" => "Resident authentication failed",
@@ -82,9 +82,6 @@ class Customer < ActiveRecord::Base
       }
     end
 
-    def authenticate
-    	# aadhar api to autheticate and get the name,email
-    end
 
     def get_basic_details(otp,aadhaar_no)
     	# aadhar api to autheticate and get the basic details
@@ -100,8 +97,8 @@ class Customer < ActiveRecord::Base
     end
 
     def self.build(params)
-      cus = Customer.find_by_aadhaar_no(params[:aadhaar_no])
-      cus = self.new(:aadhaar_no => params[:aadhaar], :email => params[:email], :phone_no => params[:phone_no], :name => params[:name]) unless cus
+      cus = Customer.find_by_aadhaar_no(params[:aadhaar])
+      cus = self.new(:aadhaar_no => params[:aadhaar], :email => params[:email], :phone_no => params[:phone_no]) unless cus
       cus
     end
 

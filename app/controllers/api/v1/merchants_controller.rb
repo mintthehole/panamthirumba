@@ -20,7 +20,7 @@ class Api::V1::MerchantsController < ApplicationController
 					flag = refund.aadhaar_verfication
 					error = "Invalid Aadhaar Number" unless flag
 				end
-				render :json => {:success => flag, :error => error}
+				render :json => {:success => flag, :error => error, :id => refund.id}
 			else
 				render :json => {:success => false, :error => refund.errors.to_a.join(",")}
 			end
@@ -60,20 +60,34 @@ class Api::V1::MerchantsController < ApplicationController
 	end
 
 	def get_details
-
+		refund = Refund.find(params[:id])
+		render :json => refund.try(:refund_hash)
 	end
 
 	def confirm_account
+		refund = Refund.find_by_id(params[:id])
+		if refund
+			bank_detail = BankDetail.build(params)
+			bank_detail.customer_id = refund.try(:customer).try(:id)
+			bank_detail.name = refund.customer.try(:name)
+			if bank_detail.save
+				render :json => {:success => true, :id => refund.id}
+			else
+				render :json => {:success => false, :error => bank_detail.errors.to_a.join(",")}
+			end
+		else
+			render :json => {:success => false, :error => "Invalid Transaction."}
+		end
 
 	end
 
 	def confirm_otp
-		cus = Customer.find_by_aadhaar_no(params[:aadhaar_no])
-		if cus && params[:otp]
-			
-			render :json => {:success => true, :has_account => true}
+		refund = Refund.find_by_id(params[:id])
+		if refund && params[:otp]
+			# Call aadhar Authentication API
+			render :json => {:success => true, :has_account => true, :id =>refund.id}
 		else
-			render :json => {:success => false, :error => "Aadhaar Number not found."}
+			render :json => {:success => false, :error => "Invalid Transaction"}
 		end
 	end
 

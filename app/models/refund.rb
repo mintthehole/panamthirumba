@@ -40,7 +40,7 @@ class Refund < ActiveRecord::Base
 
   def refund_hash
     customer = self.try(:customer)
-    {:name => customer.try(:name),:email =>customer.try(:name),
+    {:name => customer.try(:name),:email =>customer.try(:name),:id => id,
      :phone_no =>customer.try(:phone_no) ,:aadhaar => customer.try(:aadhaar_no),
      :transanction_no =>nil ,:status => state,:date=>created_at.strftime("%d-%m-%Y")}
   end
