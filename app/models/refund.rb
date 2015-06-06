@@ -15,5 +15,22 @@ class Refund < ActiveRecord::Base
   	COMPLETED = "Completed",
   	FAILED = "Failed"
   ]
+
+  def reverse_payment_transaction
+    # REVERSE PAYMENT IF YOU FIND
+  end
   
+  def cancel
+    hash = {}
+    if state != COMPLETED && state != CANCELLED
+      self.state = CANCELLED
+      self.save
+      self.reverse_payment_transaction
+      hash = {:sucess => true}
+    else
+      hash = {:sucess => false, :error => "Can't be Cancelled."}
+    end
+    hash
+  end
+
 end
