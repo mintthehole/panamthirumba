@@ -11,14 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150606074740) do
+ActiveRecord::Schema.define(:version => 20150606102426) do
 
   create_table "bank_details", :force => true do |t|
     t.string   "ac_no"
     t.string   "name"
     t.string   "ifsc_code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "customer_id"
   end
 
   create_table "customer_bank_details", :force => true do |t|

@@ -15,5 +15,5 @@ class Refund < ActiveRecord::Base
   	COMPLETED = "Completed",
   	FAILED = "Failed"
   ]
-
+  
 end
