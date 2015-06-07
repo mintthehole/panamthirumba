@@ -4,9 +4,11 @@ RefundApp::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   root :to => "dashboard#index"
-  # devise_for :users
-  ActiveAdmin.routes(self)
 
+  get "refunds/show"
+  match "refunds/initiate_refund" => 'refunds#initiate_refund'
+  match "/validate_otp" => 'refunds#validate_otp'
+ 
   
 
   namespace :api do

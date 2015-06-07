@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(:version => 20150607104947) do
 
   create_table "customer_bank_details", :force => true do |t|
     t.integer  "customer_id"
+<<<<<<< HEAD
+=======
     t.integer  "bank_detail"
+>>>>>>> 67a6ee8be83bb93f5d2401b14108757a186e661b
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "bank_detail_id"
