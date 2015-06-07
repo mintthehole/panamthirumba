@@ -64,15 +64,16 @@ class Customer < ActiveRecord::Base
 
   def get_basic_details(otp,aadhaar_no)
   	# aadhar api to autheticate and get the basic details
-    basic_details_hash = build_basic_details_hash(otp,aadhaar_no)
-    response = curl_method(basic_details_hash, Settings.basic_details_url)
-    response_body = JSON.parse response.body_str
-    if response_body["success"]
-      {:success => response_body["success"], :name => response_body['kyc']['poi']['name']}
-    else
-      status_code = response_body["aadhaar-status-code"]
-      {:success => response_body["kyc"], :error_code => Settings.kyc_errors[status_code]}
-    end
+    # basic_details_hash = build_basic_details_hash(otp,aadhaar_no)
+    # response = curl_method(basic_details_hash, Settings.basic_details_url)
+    # response_body = JSON.parse response.body_str
+    # if response_body["success"]
+    #   p response_body['kyc']
+    #   p {:success => response_body["success"], :name => ""}
+    # else
+    #   status_code = response_body["aadhaar-status-code"]
+    #   {:success => response_body["kyc"], :error_code => Settings.kyc_errors[status_code]}
+    # end
   end
 
   def self.build(params)
