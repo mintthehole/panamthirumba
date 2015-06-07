@@ -10,28 +10,25 @@
         .col-md-4
           %section.login-form
             .div.well
-              - if @hash[:success] && @hash[:has_account]
+              - if @hash[:success]
                 .otp_text{:style => 'text-align: center'}
-                  = "Merchant will refund to the Aadhaar Linked Bank Account. Thank You. (This is illustrative. Don't expect Payment)"
+                  = @hash[:msg]
                   %br 
                   %br 
-              - elsif @hash[:success]
+              - else
                 .otp_text{:style => 'text-align: center'}
-                  = "Could Not find Aadhaar Linked Bank Account. Please Provide."
+                  = @hash[:msg]
                   .other_text{:style => 'text-align: center'}
                     = form_tag('/get_bank_details', :method => :get) do
                       = label_tag 'Account No.'
-                      = text_field_tag 'acc_no'
+                      = text_field_tag 'acc_no',{:class => 'span2 validate[required] text-input'}
                       %br
                       = label_tag 'IFSC Code'
-                      = text_field_tag 'ifsc'
+                      = text_field_tag 'ifsc',:class => 'span2 validate[required] text-input'
                       = hidden_field_tag :id, @refund.id
                       %br 
                       %br 
                       = submit_tag 'Next', :class => 'btn btn-primary'
                   %br 
-                  %br 
-              - else
-                .otp_text{:style => 'text-align: center'}
-                  = @hash[:error]
+
         .col-md-4

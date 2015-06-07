@@ -2,7 +2,7 @@ class BaseResource < ActiveResource::Base
 	BaseResource.site = Settings.remote_url
 	class << self
 	  def headers
-	    strata_headers = {"AUTH_TOKEN" => "polaijm12inusu@#",
+	    strata_headers = {"AUTH-TOKEN" => "polaijm12inusu@#",
 	                      "Content-Type" => "application/json"}
 	    if defined?(@headers)
 	      @headers.merge! strata_headers

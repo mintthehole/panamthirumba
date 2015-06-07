@@ -71,7 +71,7 @@ class Customer < ActiveRecord::Base
       hash = {:success => response_body["success"], :name => name}
     else
       status_code = response_body["aadhaar-status-code"]
-      hash = {:success => response_body["kyc"], :error => Settings.kyc_errors[status_code]}
+      hash = {:success => false, :error => Settings.kyc_errors[status_code]}
     end
     hash
   end

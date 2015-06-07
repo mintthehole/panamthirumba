@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate_user_from_token!,:except => [:new,:reset_password,:update_txn,:show,:initiate_refund,:validate_otp]
+  before_filter :authenticate_user_from_token!,:except => [:new,:reset_password,:update_txn,:show,:initiate_refund,:validate_otp,:get_bank_details]
 
   def authenticate_user_from_token!
     if request.headers["auth-token"]

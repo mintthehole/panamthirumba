@@ -85,7 +85,6 @@ class Api::V1::MerchantsController < ApplicationController
 		else
 			render :json => {:success => false, :error => "Invalid Transaction."}
 		end
-
 	end
 
 	def confirm_otp
