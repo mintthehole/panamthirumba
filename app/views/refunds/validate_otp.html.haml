@@ -88,22 +88,25 @@
         .col-md-4
           %section.login-form
             .div.well
-              - if @hash 
+              - if @hash[:success] && @hash[:has_account]
                 .otp_text{:style => 'text-align: center'}
-                  = "You'll receive otp in sometime."
+                  = "You'll get the refund with the registered bank account."
                   %br 
                   %br 
-                .other_text{:style => 'text-align: center'}
-                  = form_tag('/validate_otp', :method => :get) do
-                    = label_tag 'Enter Otp'
-                    = text_field_tag 'otp' 
-                    = hidden_field_tag :id, @refund.id
-                    %br 
-                    %br 
-                    = submit_tag 'Next', :class => 'btn btn-primary'
               - else
                 .otp_text{:style => 'text-align: center'}
                   = "Your aadhaar no seems to be wrong. Contact merchant #{@refund.merchant.try(:name)}"
+                  .other_text{:style => 'text-align: center'}
+                    = form_tag('/get_bank_details', :method => :get) do
+                      = label_tag 'Account No.'
+                      = text_field_tag 'acc_no' ,:class => 'span2 validate[required] text-input'
+                      %br
+                      = label_tag 'IFSC Code'
+                      = text_field_tag 'ifsc_code' ,:class => 'span2 validate[required] text-input'
+                      = hidden_field_tag :id, @refund.id
+                      %br 
+                      %br 
+                      = submit_tag 'Next', :class => 'btn btn-primary'
                   %br 
                   %br 
         .col-md-4

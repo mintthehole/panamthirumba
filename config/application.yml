@@ -3,6 +3,9 @@ default: &default
   basic_details_url: 'https://ac.khoslalabs.com/hackgate/hackathon/kyc/raw'
   send_sms: true
   from_phone_no: 8067683816
+  remote_url : 'http://50.17.214.137:8990'
+  citrus_access_key: EUAJ540TBB3BP08X9SX0
+  payment_return_url: '/api/v1/transactions/update_txn' 
   kyc_errors: { K-100: "Resident authentication failed",
                 K-200: "Resident data currently not available",
                 K-540: "Invalid KYC XML",

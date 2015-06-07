@@ -2,7 +2,7 @@ RefundApp::Application.routes.draw do
 
   get "refunds/show"
   match "refunds/initiate_refund" => 'refunds#initiate_refund'
-  
+  match "/validate_otp" => 'refunds#validate_otp'
   get "home/index"
   
   devise_for :users

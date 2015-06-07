@@ -1,0 +1,23 @@
+  <html>
+
+    <head>
+         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <script type="text/javascript">
+        var globaldata;
+          function setdata(data) {
+              globaldata = data;
+          }
+          function postResponseiOS() {
+              return globaldata;
+          }
+          function postResponse(data) {
+              console.log(data);
+              CitrusResponse.pgResponse(data);
+          }
+       </script>
+    </head>
+    <script type="text/javascript">
+      postResponse('<%= raw @hash.to_json %>');
+      setdata ('<%= raw @hash.to_json %>'); 
+    </script>
+</html>            

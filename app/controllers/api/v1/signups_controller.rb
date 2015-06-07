@@ -1,13 +1,15 @@
 class Api::V1::SignupsController < ApplicationController
 	respond_to :xml, :json
 	def new
-		rand = Random.new.rand(0..1)
 		user = User.find_by_email(params[:email])
-		if rand == 0
-			render :json => {:success => true, :authToken =>"123" }
+		if user
+			unless user.valid_password?(params[:password])
+				render :json => {:success => false, :errors => "Wrong Email / Password."} and return
+			end
 		else
-			render :json => {:success => false, :errors => "Account Already Exists"}
+			user = User.create(:email => params[:email],:password => params[:password])
 		end
+		render :json => {:success => true, :authToken =>user.authentication_token }
 	end
 
 	def reset_password
