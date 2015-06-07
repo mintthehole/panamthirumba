@@ -30,7 +30,7 @@ class Refund < ActiveRecord::Base
     if Settings.send_sms
       begin
         # response = Exotel::Sms.send(:from => Settings.from_phone_no, :to => 9538555456, :body => "Your refund link '#{self.refund_link.link}'")
-        response = Exotel::Sms.send(:from => Settings.from_phone_no, :to => 9538555456, :body => "Your refund link ")
+        response = Exotel::Sms.send(:from => Settings.from_phone_no, :to => refund.customer.try(:phone_no).to_s.last(10).to_i, :body => "Your refund link #{self.refund_link.link}")
       rescue Exception => e
         p e.to_s
         # exotel_xml = e.to_s

@@ -17,16 +17,16 @@ ActiveRecord::Schema.define(:version => 20150606170453) do
     t.string   "ac_no"
     t.string   "name"
     t.string   "ifsc_code"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
-    t.integer  "customer_id", :precision => 38, :scale => 0
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "customer_id"
   end
 
   create_table "customer_bank_details", :force => true do |t|
-    t.integer  "customer_id",    :precision => 38, :scale => 0
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
-    t.integer  "bank_detail_id", :precision => 38, :scale => 0
+    t.integer  "customer_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "bank_detail_id"
   end
 
   create_table "customers", :force => true do |t|
@@ -39,51 +39,51 @@ ActiveRecord::Schema.define(:version => 20150606170453) do
   end
 
   create_table "merchants", :force => true do |t|
-    t.integer  "user_id",    :precision => 38, :scale => 0
+    t.integer  "user_id"
     t.string   "phone_no"
     t.string   "name"
     t.string   "tan_no"
     t.string   "address"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "refund_links", :force => true do |t|
     t.string   "link"
-    t.boolean  "is_valid",       :precision => 1,  :scale => 0, :default => false
-    t.integer  "no_of_attempts", :precision => 38, :scale => 0, :default => 0
-    t.datetime "created_at",                                                       :null => false
-    t.datetime "updated_at",                                                       :null => false
-    t.integer  "refund_id",      :precision => 38, :scale => 0
+    t.boolean  "is_valid",       :default => false
+    t.integer  "no_of_attempts", :default => 0
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "refund_id"
   end
 
   create_table "refunds", :force => true do |t|
-    t.integer  "merchant_id",       :precision => 38, :scale => 0
-    t.integer  "customer_id",       :precision => 38, :scale => 0
-    t.integer  "bank_detail_id",    :precision => 38, :scale => 0
-    t.decimal  "amount"
+    t.integer  "merchant_id"
+    t.integer  "customer_id"
+    t.integer  "bank_detail_id"
+    t.float    "amount"
     t.string   "state"
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
-    t.boolean  "customer_in_store", :precision => 1,  :scale => 0, :default => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.boolean  "customer_in_store", :default => false
   end
 
   create_table "transactions", :force => true do |t|
-    t.integer  "refund_id",  :precision => 38, :scale => 0
+    t.integer  "refund_id"
     t.string   "status"
     t.string   "txn_ref_no"
     t.string   "txn_type"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                                                :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128,                                :default => "", :null => false
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :precision => 38, :scale => 0, :default => 0
+    t.integer  "sign_in_count",                         :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -94,6 +94,6 @@ ActiveRecord::Schema.define(:version => 20150606170453) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "i_users_reset_password_token", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

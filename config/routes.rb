@@ -1,7 +1,10 @@
 RefundApp::Application.routes.draw do
 
+  get "refunds/show"
+  match "refunds/initiate_refund" => 'refunds#initiate_refund'
+  
   get "home/index"
-
+  
   devise_for :users
 
   root :to => "home#index"
