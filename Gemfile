@@ -14,6 +14,7 @@ gem 'ruby-oci8'
 gem 'haml'
 gem 'haml-rails'
 gem 'curb'
+gem 'activeadmin'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

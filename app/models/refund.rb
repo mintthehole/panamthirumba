@@ -19,7 +19,9 @@ class Refund < ActiveRecord::Base
   	COMPLETED = "Completed",
   	FAILED = "Failed"
   ]
-
+  OPEN_STATES = [
+    INITIATED,CONFIRMED,COMPLETED,FAILED
+  ]
 
   def create_refund_link
     bitly_link = Bitly.client.shorten("#{Settings.site_url}/refund/#{self.id}")
@@ -98,9 +100,7 @@ class Refund < ActiveRecord::Base
     transaction.save
     data_string = "merchantAccessKey=#{access_key}&transactionId=#{transaction.id}&amount=#{amount.to_i}"
     signature = BankApi.get_signature(data_string)
-    p signature
     return_url = request_url + Settings.payment_return_url
-    p return_url
     {'merchantTxnId' => transaction.id,
      'amount' => {'value' => amount.to_i, 'currency' => 'INR'},
      'requestSignature' => signature,

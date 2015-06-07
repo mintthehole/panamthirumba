@@ -1,10 +1,13 @@
 RefundApp::Application.routes.draw do
 
-  get "home/index"
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
-  devise_for :users
+  root :to => "dashboard#index"
+  # devise_for :users
+  ActiveAdmin.routes(self)
 
-  root :to => "home#index"
+  
 
   namespace :api do
     namespace :v1 do

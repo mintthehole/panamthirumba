@@ -16,11 +16,16 @@ class Api::V1::MerchantsController < ApplicationController
 			if refund.save
 				flag = true
 				error = nil
+				id = refund.id
 				if refund.customer_in_store
 					flag = refund.aadhaar_verfication
-					error = "Invalid Aadhaar Number" unless flag
+					unless flag
+						error = "Invalid Aadhaar Number" 
+						refund.delete
+						id = nil
+					end
 				end
-				render :json => {:success => flag, :error => error, :id => refund.id}
+				render :json => {:success => flag, :error => error, :id => id}
 			else
 				render :json => {:success => false, :error => refund.errors.to_a.join(",")}
 			end
@@ -87,6 +92,7 @@ class Api::V1::MerchantsController < ApplicationController
 		refund = Refund.find_by_id(params[:id])
 		if refund && params[:otp]
 			hash = refund.auth_and_bank(params[:otp])
+			refund.delete unless hash[:success]
 			render :json => hash
 		else
 			render :json => {:success => false, :error => "Invalid Transaction"}
