@@ -61,7 +61,7 @@ class Api::V1::MerchantsController < ApplicationController
 
 	def get_details
 		refund = Refund.find(params[:id])
-		render :json => refund.try(:refund_hash)
+		render :json => refund.try(:refund_detailed_hash)
 	end
 
 	def confirm_account
@@ -71,7 +71,9 @@ class Api::V1::MerchantsController < ApplicationController
 			bank_detail.customer_id = refund.try(:customer).try(:id)
 			bank_detail.name = refund.customer.try(:name)
 			if bank_detail.save
-				render :json => {:success => true, :id => refund.id}
+				refund.bank_detail = bank_detail
+				refund.save
+				render :json => {:success => true}
 			else
 				render :json => {:success => false, :error => bank_detail.errors.to_a.join(",")}
 			end
@@ -84,8 +86,8 @@ class Api::V1::MerchantsController < ApplicationController
 	def confirm_otp
 		refund = Refund.find_by_id(params[:id])
 		if refund && params[:otp]
-			# Call aadhar Authentication API
-			render :json => {:success => true, :has_account => true, :id =>refund.id}
+			hash = refund.auth_and_bank(params[:otp])
+			render :json => hash
 		else
 			render :json => {:success => false, :error => "Invalid Transaction"}
 		end

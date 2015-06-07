@@ -1,5 +1,5 @@
 class BaseResource < ActiveResource::Base
-	BaseResource.site = "http://localhost:9090"
+	BaseResource.site = Settings.remote_url
 	class << self
 	  def headers
 	    strata_headers = {"AUTH_TOKEN" => "polaijm12inusu@#",

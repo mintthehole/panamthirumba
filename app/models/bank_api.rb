@@ -4,6 +4,6 @@ class BankApi < BaseResource
 	end
 
 	def self.get_signature(data)
-		self.get("generate_signature/#{data}")
+		self.get("generate_signature",{:data => data})
 	end
 end

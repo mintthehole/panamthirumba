@@ -14,11 +14,10 @@ class Customer < ActiveRecord::Base
     else
       bank_detail = nil
     end
-    bank_detail
+    nil
   end
 
   def send_otp
-    # Aadhaar Api to send otp
     otp_hash = build_otp_hash(aadhaar_no)
     otp_response(otp_hash)
   end
@@ -38,42 +37,43 @@ class Customer < ActiveRecord::Base
   end
 
   def build_otp_hash(aadhaar_no)
-    {"aadhaar-id" => "#{aadhaar_no}",
-    "location" => {},
-    "channel" => "SMS"
+    {
+      "aadhaar-id" => "#{aadhaar_no}",
+      "location" => {},
+      "channel" => "SMS"
     }
   end
 
   def build_basic_details_hash(otp,aadhaar_no)
     {
-    "consent"=> "Y",
-    "auth-capture-request"=> {
-    "aadhaar-id"=> "#{aadhaar_no}",
-    "modality"=> "otp",
-    "otp"=> "#{otp}",
-    "device-id"=> "public",
-    "certificate-type"=> "preprod",
-    "location"=> {
-    "type"=> "pincode",
-    "pincode"=> "560001"
-    }
-    }
+      "consent"=> "Y",
+      "auth-capture-request"=> {
+        "aadhaar-id"=> "#{aadhaar_no}",
+        "modality"=> "otp",
+        "otp"=> "#{otp}",
+        "device-id"=> "public",
+        "certificate-type"=> "preprod",
+        "location"=> {
+          "type"=> "pincode",
+          "pincode"=> "560001"
+        }
+      }
     }
   end
 
 
-  def get_basic_details(otp,aadhaar_no)
-  	# aadhar api to autheticate and get the basic details
-    # basic_details_hash = build_basic_details_hash(otp,aadhaar_no)
-    # response = curl_method(basic_details_hash, Settings.basic_details_url)
-    # response_body = JSON.parse response.body_str
-    # if response_body["success"]
-    #   p response_body['kyc']
-    #   p {:success => response_body["success"], :name => ""}
-    # else
-    #   status_code = response_body["aadhaar-status-code"]
-    #   {:success => response_body["kyc"], :error_code => Settings.kyc_errors[status_code]}
-    # end
+  def get_basic_details(otp)
+    basic_details_hash = build_basic_details_hash(otp,aadhaar_no)
+    response = curl_method(basic_details_hash, Settings.basic_details_url)
+    response_body = JSON.parse response.body_str
+    if response_body["success"]
+      name = response_body["kyc"]["poi"]["name"] rescue ""
+      hash = {:success => response_body["success"], :name => name}
+    else
+      status_code = response_body["aadhaar-status-code"]
+      hash = {:success => response_body["kyc"], :error => Settings.kyc_errors[status_code]}
+    end
+    hash
   end
 
   def self.build(params)
